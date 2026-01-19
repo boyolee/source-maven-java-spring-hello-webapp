@@ -72,4 +72,12 @@
       </plugin>
     </plugins>
   </build>
+  <profiles>
+    <profile>
+      <id>node2</id>
+      <build>
+        <finalName>hello-world-node2</finalName>
+      </build>
+    </profile>
+  </profiles>
 </project>
