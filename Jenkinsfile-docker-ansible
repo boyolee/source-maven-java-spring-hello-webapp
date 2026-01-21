@@ -1,0 +1,51 @@
+pipeline {
+  agent none
+
+  stages {
+    stage('Checkout') {
+      agent any
+      steps {
+        git branch: 'main',
+        url: 'https://github.com/boyolee/source-maven-java-spring-hello-webapp.git'
+      }
+    }
+    stage('Build') {
+      agent {
+        docker { image 'maven:3-openjdk-17' }
+      }
+      steps {
+        sh 'mvn clean package'
+      }
+    }
+    stage('ImageBuild') {
+      agent any
+      steps {
+        sh 'docker image build -t tomcat:hello .'
+      }
+    }
+    stage('ImageTag') {
+      agent any
+      steps {
+        sh 'docker image tag tomcat:hello boyolee/tomcat:$BUILD_NUMBER' 
+        sh 'docker image tag tomcat:hello boyolee/tomcat:latest'
+      }
+    }
+    stage('ImagePush') {
+      agent any
+      steps {
+        withDockerRegistry(credentialsId: 'docker-hub-token', url: 'https://index.docker.io/v1/') {
+          sh 'docker image push boyolee/tomcat:$BUILD_NUMBER'
+          sh 'docker image push boyolee/tomcat:latest'
+        }
+      }
+    }
+    stage('RunningContainer') {
+      agent {
+        docker { image 'docker:dind' }
+      }
+      steps {
+        ansiblePlaybook(playbook: 'playbook.yaml')
+      }
+    }
+  }
+}
