@@ -76,6 +76,8 @@ spec:
           sh 'git commit -m "Jenkins Build Number - ${BUILD_NUMBER}"'
           withCredentials([gitUsernamePassword(credentialsId: 'github-credential', gitToolName: 'Default')])
           sh 'git push --set-upstream origin main'
+        }
       }
+    }
   }
 }
