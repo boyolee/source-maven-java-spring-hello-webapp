@@ -42,14 +42,16 @@ spec:
     }
     stage('Build&Test') {
       steps {
-        container('maven')
+        container('maven') {
           sh 'mvn clean package'
+        }
       }
     }
     stage('ImageBuild&Push') {
       steps {
-        container('kaniko')
+        container('kaniko') {
           sh 'executor --context-dir://$WORKSPACE --destination=boyolee/k8s:$(BUILD_NUMBER) --destination=boyolee/k8s:latest'
+        }
       }
     }
   }
