@@ -48,7 +48,7 @@ spec:
     stage('ImageBuild&Push') {
       steps {
         container('kaniko')
-          sh 'executor --context-dir:///home/jenkins/agent/workspace/test/ --destination=boyolee/k8s:$(BUILD_NUMBER) --destination=boyolee/k8s:latest'
+          sh 'executor --context-dir://$WORKSPACE --destination=boyolee/k8s:$(BUILD_NUMBER) --destination=boyolee/k8s:latest'
       }
     }
   }
