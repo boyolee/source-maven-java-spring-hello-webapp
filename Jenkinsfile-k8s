@@ -37,6 +37,7 @@ spec:
       steps {
         container('maven') {
           git branch: 'main', url: 'https://github.com/boyolee/source-maven-java-spring-hello-webapp.git'
+        }
       }
     }
     stage('Build&Test') {
