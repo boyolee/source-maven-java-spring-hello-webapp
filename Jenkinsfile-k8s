@@ -15,7 +15,7 @@ spec:
     - name: kaniko
       image: gcr.io/kaniko-project/executor:debug
       command:
-        - slppe
+        - sleep
       args:
         - infinity
       volumeMounts:
