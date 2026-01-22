@@ -37,6 +37,10 @@ spec:
 '''
     }
   }
+    
+  triggers {
+    pollSCM('* * * * *')
+  }
 
   stages {
     stage('Checkout') {
